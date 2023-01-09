@@ -7,10 +7,12 @@ import {
   ManyToOne,
   OneToMany,
 } from "typeorm";
-import Entity from "./Entity";
+import BaseEntity from "./Entity";
+import Post from "./Post";
+import { User } from "./User";
 
 @Entity("subs")
-export default class Sub extends Entity {
+export default class Sub extends BaseEntity {
   @Index()
   @Column({ unique: true })
   name: string;
