@@ -1,4 +1,11 @@
-import React, { createContext, Dispatch, useContext, useReducer } from "react";
+import axios from "axios";
+import React, {
+  createContext,
+  Dispatch,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 import type { User } from "../types";
 
 interface State {
@@ -59,8 +66,19 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     user: undefined,
     loading: true,
   });
-  console.log("state", state);
 
+  useEffect(() => {
+    async () => {
+      try {
+        const res = await axios.get("/auth/me");
+        dispatch({ type: ActionKind.LOGIN, payload: res.data });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        dispatch({ type: ActionKind.STOP_LOADING, payload: null });
+      }
+    };
+  });
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
