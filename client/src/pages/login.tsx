@@ -3,11 +3,14 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
+import { useAuthDispatch } from "../context/auth";
+import { ActionKind } from "../context/auth";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>({});
+  const dispatch = useAuthDispatch();
   let router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
@@ -23,7 +26,8 @@ const Login = () => {
         { withCredentials: true }
       );
       console.log(res);
-      router.push("/login");
+      dispatch({ type: ActionKind.LOGIN, payload: res.data?.user });
+      router.push("/");
     } catch (err: any) {
       console.log(err);
       setErrors(err.response.data || {});
