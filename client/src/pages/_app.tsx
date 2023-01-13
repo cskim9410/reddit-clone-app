@@ -10,7 +10,8 @@ export default function App({ Component, pageProps }: AppProps) {
   axios.defaults.withCredentials = true;
 
   const { pathname } = useRouter();
-  const authRoutes = ["/register", "login"];
+  const authRoutes = ["/register", "/login"];
+  console.log(pathname);
   const authRoute = authRoutes.includes(pathname);
 
   return (
