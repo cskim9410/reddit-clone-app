@@ -11,10 +11,10 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>({});
   const dispatch = useAuthDispatch();
-  const { authentiacted } = useAuthState();
+  const { authenticacted } = useAuthState();
   let router = useRouter();
 
-  if (authentiacted) router.push("/");
+  if (authenticacted) router.push("/");
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

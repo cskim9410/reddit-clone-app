@@ -8,7 +8,6 @@ const authMiddleware = async (
 ) => {
   try {
     const user: User | undefined = res.locals.user;
-
     if (!user) throw new Error("Unauthenticated");
     return next();
   } catch (error) {

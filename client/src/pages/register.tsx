@@ -10,10 +10,10 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>({});
-  const { authentiacted } = useAuthState();
+  const { authenticacted } = useAuthState();
   let router = useRouter();
 
-  if (authentiacted) router.push("/");
+  if (authenticacted) router.push("/");
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 

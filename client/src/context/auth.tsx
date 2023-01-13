@@ -9,18 +9,18 @@ import React, {
 import type { User } from "../types";
 
 interface State {
-  authentiacted: boolean;
+  authenticacted: boolean;
   user: User | undefined;
   loading: boolean;
 }
 
 interface Action {
   type: string;
-  payload: any;
+  payload?: any;
 }
 
 const StateContext = createContext<State>({
-  authentiacted: false,
+  authenticacted: false,
   user: undefined,
   loading: true,
 });
@@ -37,14 +37,14 @@ const reducer = (state: State, { type, payload }: Action) => {
       return {
         ...state,
         user: payload,
-        authentiacted: true,
+        authenticacted: true,
       };
     }
     case ActionKind.LOGOUT: {
       return {
         ...state,
         user: undefined,
-        authentiacted: false,
+        authenticacted: false,
       };
     }
     case ActionKind.STOP_LOADING: {
@@ -62,23 +62,24 @@ const DispatchContext = createContext<Dispatch<Action>>(() => {});
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, {
-    authentiacted: false,
+    authenticacted: false,
     user: undefined,
     loading: true,
   });
 
   useEffect(() => {
-    async () => {
+    (async () => {
       try {
         const res = await axios.get("/auth/me");
         dispatch({ type: ActionKind.LOGIN, payload: res.data });
       } catch (error) {
         console.log(error);
       } finally {
-        dispatch({ type: ActionKind.STOP_LOADING, payload: null });
+        dispatch({ type: ActionKind.STOP_LOADING });
       }
-    };
-  });
+    })();
+  }, []);
+
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
