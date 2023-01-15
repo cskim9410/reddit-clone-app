@@ -56,7 +56,7 @@ const topSubs = async (_, res: Response) => {
       .from(Sub, "s")
       .leftJoin(Post, "p", `s.name = p."subName"`)
       .groupBy('s.title, s.name, "imageUrl"')
-      .orderBy(`"postCount", "DESC"`)
+      .orderBy(`"postCount"`, "DESC")
       .limit(5)
       .execute();
     return res.json(subs);

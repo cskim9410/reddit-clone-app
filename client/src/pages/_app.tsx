@@ -11,7 +11,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const { pathname } = useRouter();
   const authRoutes = ["/register", "/login"];
-  console.log(pathname);
   const authRoute = authRoutes.includes(pathname);
 
   return (

@@ -15,7 +15,7 @@ export interface Sub {
   bannerUrn: string;
   username: string;
   posts: Post[];
-  postCount?: string;
+  postCount: string;
   imageUrl: string;
   bannerUrl: string;
 }
