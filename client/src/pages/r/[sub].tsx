@@ -1,22 +1,49 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import Image from "next/image";
 import { useRouter } from "next/router";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
+import SideBar from "../../components/SideBar";
+import { useAuthState } from "../../context/auth";
+import { Sub } from "../../types";
 
 const SubPage = () => {
-  const fetcher = async (url: string) => {
-    try {
-      const res = await axios.get(url);
-      return res.data;
-    } catch (error) {
-      if (error instanceof AxiosError) throw error.response?.data;
-    }
-  };
+  const [ownSub, setOwnSub] = useState(false);
+  const { authenticated, user } = useAuthState();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const subName = router.query.sub;
-  const { data: sub, error } = useSWR(
-    subName ? `sub/${subName}` : null,
-    fetcher
-  );
+  const { data: sub, error } = useSWR<Sub>(subName ? `/subs/${subName}` : null);
+
+  useEffect(() => {
+    if (!sub) return;
+    setOwnSub(authenticated && user.username === sub.username);
+  }, [sub]);
+
+  const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files || !fileInputRef.current) return;
+    const file = event.target.files[0];
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("type", fileInputRef.current.name);
+
+    try {
+      axios.post(`/subs/${sub?.name}/upload`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const openFileInput = (type: string) => {
+    const fileInput = fileInputRef.current;
+    if (fileInput) {
+      fileInput.name = type;
+      fileInput.click();
+    }
+  };
   return (
     <>
       {sub && (
@@ -32,11 +59,47 @@ const SubPage = () => {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
+                  onClick={() => openFileInput("banner")}
                 ></div>
               ) : (
-                <div className="h-20 bg-gray-400"></div>
+                <div
+                  className="h-20 bg-gray-400"
+                  onClick={() => openFileInput("banner")}
+                ></div>
               )}
             </div>
+            <input
+              type="file"
+              hidden={true}
+              ref={fileInputRef}
+              onChange={uploadImage}
+            />
+            <div className="h-20 bg-white">
+              <div className="relative flex max-w-5xl px-5 mx-auto">
+                <div className="absolute" style={{ top: -15 }}>
+                  {sub.imageUrl && (
+                    <Image
+                      src={sub.imageUrl}
+                      alt="커뮤니티 이미지"
+                      width={70}
+                      height={70}
+                      className="rounded-full"
+                      onClick={() => openFileInput("image")}
+                    />
+                  )}
+                </div>
+                <div className="pt-1 pl-24">
+                  <h1 className="text-3xl font-bold">{sub.title}</h1>
+                  <p className="text-sm font-bold text-gray-400">
+                    /r/{sub.name}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex max-w-5xl px-4 pt-5 mx-auto">
+            <div className="w-full md:mr-3 md:w-8/12"></div>
+            <SideBar sub={sub} />
           </div>
         </>
       )}

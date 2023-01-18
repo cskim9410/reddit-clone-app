@@ -1,18 +1,13 @@
-import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import useSWR from "swr";
 import type { Sub } from "../types";
-import axios from "axios";
 import SubList from "../components/SubList";
 import { useAuthState } from "../context/auth";
 
 const Home = () => {
-  const fetcher = async (url: string) => {
-    return await axios.get(url).then((res) => res.data);
-  };
   const address = "http://localhost:4000/api/subs/sub/topSubs";
-  const { data: topSubs } = useSWR<Sub[]>(address, fetcher);
-  const { authenticacted } = useAuthState();
+  const { data: topSubs } = useSWR<Sub[]>(address);
+  const { authenticated } = useAuthState();
 
   return (
     <div className="flex max-w-5xl px-4 mt-5 mx-auto">
@@ -33,7 +28,7 @@ const Home = () => {
                 />
               ))}
           </div>
-          {authenticacted && (
+          {authenticated && (
             <div className="w-full py-6 text-center">
               <Link
                 href="/subs/create"

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
@@ -18,9 +18,11 @@ const SubCreate = () => {
       const res = await axios.post("/subs", { name, title, description });
 
       // router.push(`/r/${res.data.name}`);
-    } catch (error: any) {
-      console.log(error);
-      setErrors(error.response.data);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error);
+        setErrors(error.response?.data);
+      }
     }
   };
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ActionKind, useAuthDispatch, useAuthState } from "./../context/auth";
 import axios from "axios";
 const NavBar = () => {
-  const { loading, authenticacted } = useAuthState();
+  const { loading, authenticated } = useAuthState();
   const dispatch = useAuthDispatch();
 
   const handleLogout = () => {
@@ -31,7 +31,7 @@ const NavBar = () => {
       </div>
       <div>
         {!loading &&
-          (authenticacted ? (
+          (authenticated ? (
             <button
               className="w-21 p-2 mr-2 text-center border text-white rounded bg-gray-400"
               onClick={handleLogout}

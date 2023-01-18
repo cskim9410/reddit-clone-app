@@ -21,7 +21,7 @@ export interface Sub {
 }
 
 export interface Post {
-  indentifier: string;
+  identifier: string;
   title: string;
   slug: string;
   body: string;
@@ -37,12 +37,12 @@ export interface Post {
 }
 
 export interface Comment {
-  indentifier: string;
+  identifier: string;
   body: string;
   username: string;
   createdAt: string;
   updatedAt: string;
   post?: Post;
-  userVote: string;
+  userVote: number;
   voteScore: string;
 }
