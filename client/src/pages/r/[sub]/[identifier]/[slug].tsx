@@ -13,11 +13,13 @@ const PostPage = () => {
   const { identifier, sub, slug } = router.query;
   const { authenticated, user } = useAuthState();
   const [newComment, setNewComment] = useState("");
+
   const {
     data: post,
     error,
     mutate: postMutate,
   } = useSWR<Post>(identifier && slug ? `/posts/${identifier}/${slug}` : null);
+
   const { data: comments, mutate: commentMutate } = useSWR<Comment[]>(
     identifier && slug ? `/posts/${identifier}/${slug}/comments` : null
   );
@@ -32,7 +34,7 @@ const PostPage = () => {
       await axios.post(`/posts/${post?.identifier}/${post?.slug}/comments`, {
         body: newComment,
       });
-      // commentMutate();
+      commentMutate();
       setNewComment("");
     } catch (error) {
       console.log(error);
@@ -63,7 +65,6 @@ const PostPage = () => {
       console.log(error);
     }
   };
-  console.log("post.userVote", post?.userVote);
   return (
     <div className="flex max-w-5xl px-4 pt-5 mx-auto">
       <div className="w-full md:mr-3 md:w-8/12">
