@@ -114,7 +114,11 @@ const SubPage = () => {
                 </p>
               ) : (
                 sub.posts.map((post) => (
-                  <PostCard key={post.identifier} post={post} />
+                  <PostCard
+                    key={post.identifier}
+                    post={post}
+                    subMutate={mutate}
+                  />
                 ))
               )}
             </div>

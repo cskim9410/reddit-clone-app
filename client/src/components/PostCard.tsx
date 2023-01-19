@@ -9,11 +9,13 @@ import dayjs from "dayjs";
 
 interface PostCardProps {
   post: Post;
+  subMutate: () => {};
 }
 
-const PostCard = ({ post }: PostCardProps) => {
+const PostCard = ({ post, subMutate }: PostCardProps) => {
   const router = useRouter();
-  const isInSubPage = router.pathname;
+  const isInSubPage = router.pathname === "/r/[sub]";
+
   const { authenticated } = useAuthState();
 
   const vote = async (value: number) => {
@@ -28,7 +30,7 @@ const PostCard = ({ post }: PostCardProps) => {
         value,
       });
       //   if (mutate) mutate();
-      //   if (subMutate) subMutate();
+      if (subMutate) subMutate();
     } catch (error) {
       console.log(error);
     }
