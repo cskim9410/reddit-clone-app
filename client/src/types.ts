@@ -36,7 +36,7 @@ export interface Post {
   commentCount?: number;
 }
 
-export interface Comment {
+export interface CommentType {
   identifier: string;
   body: string;
   username: string;
@@ -44,5 +44,5 @@ export interface Comment {
   updatedAt: string;
   post?: Post;
   userVote: number;
-  voteScore: string;
+  voteScore: number;
 }
