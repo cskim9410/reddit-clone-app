@@ -22,7 +22,7 @@ const PostPage = () => {
     identifier && slug ? `/posts/${identifier}/${slug}/comments` : null
   );
 
-  const submitCommentForm = async (e: FormEvent) => {
+  const submitComments = async (e: FormEvent) => {
     e.preventDefault();
     if (newComment.trim() === "") {
       return;
@@ -32,7 +32,7 @@ const PostPage = () => {
       await axios.post(`/posts/${post?.identifier}/${post?.slug}/comments`, {
         body: newComment,
       });
-      commentMutate();
+      // commentMutate();
       setNewComment("");
     } catch (error) {
       console.log(error);
@@ -138,7 +138,7 @@ const PostPage = () => {
                       </Link>{" "}
                       으로 댓글 작성
                     </p>
-                    <form onSubmit={submitCommentForm}>
+                    <form onSubmit={submitComments}>
                       <textarea
                         className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-gray-600"
                         onChange={(e) => setNewComment(e.target.value)}
