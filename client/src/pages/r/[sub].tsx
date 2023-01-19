@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
+import PostCard from "../../components/PostCard";
 import SideBar from "../../components/SideBar";
 import { useAuthState } from "../../context/auth";
 import { Sub } from "../../types";
@@ -13,7 +14,11 @@ const SubPage = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const subName = router.query.sub;
-  const { data: sub, error } = useSWR<Sub>(subName ? `/subs/${subName}` : null);
+  const {
+    data: sub,
+    error,
+    mutate,
+  } = useSWR<Sub>(subName ? `/subs/${subName}` : null);
 
   useEffect(() => {
     if (!sub) return;
@@ -44,6 +49,9 @@ const SubPage = () => {
       fileInput.click();
     }
   };
+
+  let renderPost;
+
   return (
     <>
       {sub && (
@@ -98,7 +106,18 @@ const SubPage = () => {
             </div>
           </div>
           <div className="flex max-w-5xl px-4 pt-5 mx-auto">
-            <div className="w-full md:mr-3 md:w-8/12"></div>
+            <div className="w-full md:mr-3 md:w-8/12">
+              {!sub && <p className="text-lg text-center">로딩중...</p>}
+              {sub.posts.length === 0 ? (
+                <p className="text-lg text-center">
+                  아직 작성된 포스트가 없습니다.
+                </p>
+              ) : (
+                sub.posts.map((post) => (
+                  <PostCard key={post.identifier} post={post} />
+                ))
+              )}
+            </div>
             <SideBar sub={sub} />
           </div>
         </>

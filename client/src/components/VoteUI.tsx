@@ -12,8 +12,8 @@ interface VoteUIProps {
 const VoteUI = ({ type, vote }: VoteUIProps) => {
   const router = useRouter();
 
-  const isPost = (type: any): type is Post => {
-    return type.title !== undefined;
+  const isPost = (type: CommentType | Post): type is Post => {
+    return (type as Post).title !== undefined;
   };
 
   const clickVote = (value: number) => {
