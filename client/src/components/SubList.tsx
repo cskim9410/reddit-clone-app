@@ -17,6 +17,7 @@ const SubList = ({ imgUrl, subName, postCount }: SubListProps) => {
           alt="community-image"
           width={24}
           height={24}
+          // style={{ width: "100%", height: "100%" }}
         />
       </Link>
       <Link className="ml-2 font-bold cursor-pointer" href={`/r/${subName}`}>

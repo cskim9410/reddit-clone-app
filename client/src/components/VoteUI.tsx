@@ -2,7 +2,6 @@ import type { CommentType, Post } from "../types";
 import { FaArrowUp } from "react-icons/fa";
 import { FaArrowDown } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { useAuthState } from "./../context/auth";
 
 interface VoteUIProps {
   type: CommentType | Post;

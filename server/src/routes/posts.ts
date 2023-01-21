@@ -30,6 +30,29 @@ const createPost = async (req: Request, res: Response) => {
   }
 };
 
+const getPosts = async (req: Request, res: Response) => {
+  const currentPage: number = Number(req.query.page) || 0;
+  const perPage: number = Number(req.query.count) || 8;
+
+  try {
+    const posts = await Post.find({
+      order: { createdAt: "DESC" },
+      relations: ["sub", "votes", "comments"],
+      skip: currentPage * perPage,
+      take: perPage,
+    });
+
+    if (res.locals.user) {
+      posts.forEach((post) => post.setUserVote(res.locals.user));
+    }
+
+    return res.json(posts);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "문제가 발생했습니다." });
+  }
+};
+
 const getPost = async (req: Request, res: Response) => {
   const { identifier, slug } = req.params;
   try {
@@ -71,7 +94,7 @@ const createPostComment = async (req: Request, res: Response) => {
     return res.json(comment);
   } catch (error) {
     console.log(error);
-    res.status(404).json({ error: "게시물을 찾을 수 없습니다." });
+    return res.status(404).json({ error: "게시물을 찾을 수 없습니다." });
   }
 };
 
@@ -92,7 +115,7 @@ const getPostComment = async (req: Request, res: Response) => {
     return res.json(comments);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "문제가 발생했습니다." });
+    return res.status(500).json({ error: "문제가 발생했습니다." });
   }
 };
 
@@ -100,6 +123,9 @@ const router = Router();
 
 router.get("/:identifier/:slug", userMiddleware, getPost);
 router.get("/:identifier/:slug/comments", userMiddleware, getPostComment);
+
+router.get("/", userMiddleware, getPosts);
+
 router.post("/:identifier/:slug/comments", userMiddleware, createPostComment);
 router.post("/", userMiddleware, authMiddleware, createPost);
 

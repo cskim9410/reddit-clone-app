@@ -50,8 +50,6 @@ const SubPage = () => {
     }
   };
 
-  let renderPost;
-
   return (
     <>
       {sub && (
@@ -107,7 +105,6 @@ const SubPage = () => {
           </div>
           <div className="flex max-w-5xl px-4 pt-5 mx-auto">
             <div className="w-full md:mr-3 md:w-8/12">
-              {!sub && <p className="text-lg text-center">로딩중...</p>}
               {sub.posts.length === 0 ? (
                 <p className="text-lg text-center">
                   아직 작성된 포스트가 없습니다.

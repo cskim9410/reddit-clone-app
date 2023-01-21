@@ -9,10 +9,11 @@ import dayjs from "dayjs";
 
 interface PostCardProps {
   post: Post;
-  subMutate: () => {};
+  subMutate?: () => {};
+  mutate?: () => {};
 }
 
-const PostCard = ({ post, subMutate }: PostCardProps) => {
+const PostCard = ({ post, subMutate, mutate }: PostCardProps) => {
   const router = useRouter();
   const isInSubPage = router.pathname === "/r/[sub]";
 
@@ -29,14 +30,14 @@ const PostCard = ({ post, subMutate }: PostCardProps) => {
         slug: post.slug,
         value,
       });
-      //   if (mutate) mutate();
+      if (mutate) mutate();
       if (subMutate) subMutate();
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <div className="flex">
+    <div className="flex bg-white m-3" id={post.identifier}>
       <VoteUI type={post} vote={vote} />
       <div className="w-full p-2">
         <div className="flex items-center">
@@ -64,7 +65,7 @@ const PostCard = ({ post, subMutate }: PostCardProps) => {
           <p className="text-xs text-gray-400">
             Posted by
             <Link href={`/u/${post.username}`} className="mx-1 hover:underline">
-              /u/{post.username}
+              {post.username}
             </Link>
             <Link href={post.url} className="mx-1 hover:underline">
               {dayjs(post.createdAt).format("YYYY-MM-DD HH:mm")}
