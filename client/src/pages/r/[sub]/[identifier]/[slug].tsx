@@ -72,7 +72,9 @@ const PostPage = () => {
                       </Link>
                     </p>
                   </div>
-                  <h1 className="my-1 text-xl font-medium">{post.title}</h1>
+                  <h1 className="my-1 text-xl font-medium font-bold">
+                    {post.title}
+                  </h1>
                   <p className="my-3 text-sm">{post.body}</p>
                   <div className="flex">
                     <button>
