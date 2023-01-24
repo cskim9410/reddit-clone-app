@@ -17,7 +17,7 @@ const nextConfig = {
       },
       {
         protocol: "http",
-        hostname: "ec2-54-180-1-35.ap-northeast-2.compute.amazonaws.com",
+        hostname: "http://ec2-3-34-49-80.ap-northeast-2.compute.amazonaws.com",
         port: "4000",
         pathname: "/images/**",
       },
