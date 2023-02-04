@@ -3,7 +3,10 @@ import { DataSource } from "typeorm";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: "ec2-3-38-241-152.ap-northeast-2.compute.amazonaws.com",
+  host:
+    process.env.NODE_ENV === "development"
+      ? "localhost"
+      : "ec2-3-38-241-152.ap-northeast-2.compute.amazonaws.com",
   port: 5432,
   username: "postgres",
   password: "password",

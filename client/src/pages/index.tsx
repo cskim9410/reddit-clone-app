@@ -83,7 +83,7 @@ const Home = () => {
             <div className="w-full py-6 text-center">
               <Link
                 href="/subs/create"
-                className="w-full p-2 text-center bg-gray-400 text-white rounded"
+                className="w-full p-2 text-center bg-confirm-blue text-white rounded"
               >
                 커뮤니티 만들기
               </Link>

@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./src/pages/**/*.tsx", "./src/components/*.tsx"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "confirm-blue": "#0077b6",
+      },
+    },
   },
   plugins: [],
 };

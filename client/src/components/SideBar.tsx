@@ -8,7 +8,7 @@ const SideBar = ({ sub }: { sub: Sub }) => {
   return (
     <div className="hidden w-4/12 ml-3 md:block">
       <div className="bg-white border rounded">
-        <div className="p-3 bg-gray-400 rounded-t">
+        <div className="p-3 bg-confirm-blue rounded-t">
           <p className="font-semibold text-white">커뮤니티에 대해서</p>
         </div>
         <div className="p-3">
@@ -24,7 +24,7 @@ const SideBar = ({ sub }: { sub: Sub }) => {
             <div className="mx-0 my-2">
               <Link
                 href={`/r/${sub.name}/create`}
-                className="w-full p-2 text-sm text-white bg-gray-400 rounded"
+                className="w-full p-2 text-sm text-white bg-confirm-blue rounded"
               >
                 포스트 생성
               </Link>
