@@ -7,7 +7,7 @@ const SideBar = ({ sub }: { sub: Sub }) => {
   const { authenticated } = useAuthState();
   return (
     <div className="hidden w-4/12 ml-3 md:block">
-      <div className="bg-white border rounded">
+      <div className="bg-white border dark:border-gray-500 rounded dark:bg-slate-800 dark:text-slate-100">
         <div className="p-3 bg-confirm-blue rounded-t">
           <p className="font-semibold text-white">커뮤니티에 대해서</p>
         </div>
@@ -21,10 +21,10 @@ const SideBar = ({ sub }: { sub: Sub }) => {
           </div>
           <p className="my-3">{dayjs(sub.createdAt).format("MM.DD.YYYY")}</p>
           {authenticated && (
-            <div className="mx-0 my-2">
+            <div className="mx-0 my-2 text-center">
               <Link
                 href={`/r/${sub.name}/create`}
-                className="w-full p-2 text-sm text-white bg-confirm-blue rounded"
+                className="w-full py-2 px-14 text font-bold text-white bg-confirm-blue rounded-3xl"
               >
                 포스트 생성
               </Link>

@@ -53,13 +53,13 @@ const CommentForm = ({
           </p>
           <form onSubmit={submitComments}>
             <textarea
-              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-gray-600"
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-gray-600 dark:bg-slate-800"
               onChange={(e) => setNewComment(e.target.value)}
               value={newComment}
             ></textarea>
-            <div className="flex justify-end">
+            <div className="flex justify-end p-3">
               <button
-                className="px-3 py-1 text-white bg-gray-400 rounded"
+                className="px-3 p-1 font-bold text-gray-400 bg-gray-700 dark:bg-gray-400 dark:text-gray-700 rounded-3xl disabled:cursor-not-allowed"
                 disabled={newComment.trim() === ""}
               >
                 댓글 작성

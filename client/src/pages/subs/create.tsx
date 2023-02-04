@@ -27,7 +27,7 @@ const SubCreate = () => {
 
   return (
     <div className="flex flex-col justify-center pt-16">
-      <div className="w-10/12 p-4 mx-auto bg-white rounded md:w-[890px]">
+      <div className="w-10/12 p-4 mx-auto bg-white dark:bg-slate-800 dark:text-slate-100 rounded md:w-[890px]">
         <h1 className="mb-2 text-lg font-medium">커뮤니티 만들기</h1>
         <hr />
         <form onSubmit={handleSubmit}>
@@ -68,7 +68,14 @@ const SubCreate = () => {
             />
           </div>
           <div className="flex justify-end">
-            <button className="px-4 py-1 text-sm font-semibold text-white bg-gray-400 border rounded">
+            <button
+              className="px-4 py-1 font-bold text-gray-400 bg-gray-700 dark:bg-gray-400 dark:text-gray-700 rounded-3xl disabled:cursor-not-allowed"
+              disabled={
+                title.trim() === "" ||
+                name.trim() === "" ||
+                description.trim() === ""
+              }
+            >
               커뮤니티 만들기
             </button>
           </div>

@@ -8,7 +8,8 @@ import PostCard from "../components/PostCard";
 import { useEffect, useState, useRef } from "react";
 
 const Home = () => {
-  const { data: topSubs } = useSWR<Sub[]>("/subs/sub/topSubs");
+  const { data: topSubs, isLoading: isTobSubsLoading } =
+    useSWR<Sub[]>("/subs/sub/topSubs");
 
   const getkey = (pageIndex: number, previousPageData: Post[]) => {
     if (previousPageData && !previousPageData.length) return null;
@@ -18,6 +19,7 @@ const Home = () => {
   const {
     data,
     error,
+    isLoading: isPostsLoading,
     size: page,
     setSize: setPage,
     isValidating,
@@ -64,7 +66,7 @@ const Home = () => {
           ))}
       </div>
       <div className="hidden w-4/12 ml-3 md:block">
-        <div className="border rounded bg-white">
+        <div className="border rounded bg-white dark:bg-slate-800 dark:text-slate-100">
           <div className="p-4 border-b">
             <p className="text-center text-lg font-semibold">상위 커뮤니티</p>
           </div>
@@ -83,7 +85,7 @@ const Home = () => {
             <div className="w-full py-6 text-center">
               <Link
                 href="/subs/create"
-                className="w-full p-2 text-center bg-confirm-blue text-white rounded"
+                className="w-full py-2 px-14 text-center bg-confirm-blue text-white font-bold rounded-3xl"
               >
                 커뮤니티 만들기
               </Link>

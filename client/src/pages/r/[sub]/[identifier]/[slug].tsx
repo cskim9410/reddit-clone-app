@@ -50,16 +50,16 @@ const PostPage = () => {
   };
 
   return (
-    <div className="flex max-w-5xl px-4 pt-5 mx-auto">
+    <div className="flex max-w-5xl px-4 p-5 mx-auto">
       <div className="w-full md:mr-3 md:w-8/12">
-        <div className="bg-white rounded">
+        <div className="bg-white dark:bg-slate-800 rounded dark:text-slate-100">
           {post && (
             <>
               <div className="flex">
                 <VoteUI type={post} vote={vote} />
                 <div className="py-2 pr-2">
                   <div className="flex items-center">
-                    <p className="text-xs test-gray-400">
+                    <p className="text-xs text-gray-400">
                       Posted by <i className="fas fa-abacus"></i>
                       <Link
                         href={`/u/${post.username}`}
@@ -72,9 +72,7 @@ const PostPage = () => {
                       </Link>
                     </p>
                   </div>
-                  <h1 className="my-1 text-xl font-medium font-bold">
-                    {post.title}
-                  </h1>
+                  <h1 className="my-1 text-xl font-bold">{post.title}</h1>
                   <p className="my-3 text-sm">{post.body}</p>
                   <div className="flex">
                     <button>

@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import NavBar from "../components/NavBar";
 import { SWRConfig } from "swr";
 import Script from "next/script";
+import DarkProvider from "../context/dark";
 
 export default function App({ Component, pageProps }: AppProps) {
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL + "/api";
@@ -32,12 +33,18 @@ export default function App({ Component, pageProps }: AppProps) {
         crossOrigin="anonymous"
       ></Script>
       <SWRConfig value={{ fetcher }}>
-        <AuthProvider>
-          {!authRoute && <NavBar />}
-          <div className={authRoute ? "" : "pt-12 bg-gray-200 min-h-screen"}>
-            <Component {...pageProps} />
-          </div>
-        </AuthProvider>
+        <DarkProvider>
+          <AuthProvider>
+            {!authRoute && <NavBar />}
+            <div
+              className={
+                authRoute ? "" : "pt-12 bg-gray-200 dark:bg-black min-h-screen"
+              }
+            >
+              <Component {...pageProps} />
+            </div>
+          </AuthProvider>
+        </DarkProvider>
       </SWRConfig>
     </>
   );

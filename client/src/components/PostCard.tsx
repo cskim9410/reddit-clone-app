@@ -37,7 +37,10 @@ const PostCard = ({ post, subMutate, mutate }: PostCardProps) => {
     }
   };
   return (
-    <div className="flex bg-white m-3" id={post.identifier}>
+    <div
+      className="flex bg-white dark:bg-slate-800 dark:text-slate-100 m-3 rounded dark:border-gray-500 border"
+      id={post.identifier}
+    >
       <VoteUI type={post} vote={vote} />
       <div className="w-full p-2">
         <div className="flex items-center">

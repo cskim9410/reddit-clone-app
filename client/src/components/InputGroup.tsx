@@ -22,7 +22,7 @@ const InputGroup = ({
         style={{ minWidth: 300 }}
         className={`w-full p-3 transition duration-200 border ${
           error ? "border-red-500" : "border-gray-400"
-        } rounded bg-gray-50 focus:bg-white hover:bg-white`}
+        } rounded bg-gray-50 focus:bg-white hover:bg-white dark:bg-slate-800 dark:text-slate-100`}
         placeholder={placeholder}
         value={value}
         onChange={(e) => setValue(e.target.value)}
