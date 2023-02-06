@@ -76,7 +76,7 @@ const PostCard = ({ post, subMutate, mutate }: PostCardProps) => {
           </p>
         </div>
 
-        <Link href={post.url} className="my-1 text-lg font-medium font-bold">
+        <Link href={post.url} className="my-1 text-lg font-bold">
           {post.title}
         </Link>
         {post.body && <p className="my-1 text-sm">{post.body}</p>}

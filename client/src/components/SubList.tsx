@@ -1,29 +1,42 @@
-import Image from "next/image";
+import React from "react";
+import useSWR from "swr";
+import type { Sub } from "../types";
 import Link from "next/link";
+import SubItem from "../components/SubItem";
+import { useAuthState } from "../context/auth";
 
-interface SubListProps {
-  imgUrl: string;
-  subName: string;
-  postCount: string;
-}
+const SubList = () => {
+  const { authenticated } = useAuthState();
 
-const SubList = ({ imgUrl, subName, postCount }: SubListProps) => {
+  const { data: topSubs, isLoading } = useSWR<Sub[]>("/subs/sub/topSubs");
   return (
-    <div className="flex items-center px-4 py-2 text-xs border-b">
-      <Link href={`/r/${subName}`}>
-        <Image
-          className="rounded-full cursor-pointer"
-          src={imgUrl}
-          alt="community-image"
-          width={24}
-          height={24}
-          // style={{ width: "100%", height: "100%" }}
-        />
-      </Link>
-      <Link className="ml-2 font-bold cursor-pointer" href={`/r/${subName}`}>
-        /r/{subName}
-      </Link>
-      <p className="ml-auto font-md">{postCount}</p>
+    <div className="hidden w-4/12 ml-3 md:block">
+      <div className="border rounded bg-white dark:bg-slate-800 dark:text-slate-100">
+        <div className="p-4 border-b">
+          <p className="text-center text-lg font-semibold">상위 커뮤니티</p>
+        </div>
+        <div>
+          {topSubs &&
+            topSubs.map((sub) => (
+              <SubItem
+                key={sub.name}
+                imgUrl={sub.imageUrl}
+                subName={sub.name}
+                postCount={sub.postCount}
+              />
+            ))}
+        </div>
+        {authenticated && (
+          <div className="w-full py-6 text-center">
+            <Link
+              href="/subs/create"
+              className="w-full py-2 px-14 text-center bg-confirm-blue text-white font-bold rounded-3xl"
+            >
+              커뮤니티 만들기
+            </Link>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

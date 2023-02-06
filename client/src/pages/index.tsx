@@ -1,16 +1,11 @@
-import Link from "next/link";
-import useSWR from "swr";
 import useSWRInfinite from "swr/infinite";
-import type { Post, Sub } from "../types";
-import SubList from "../components/SubList";
-import { useAuthState } from "../context/auth";
+import type { Post } from "../types";
 import PostCard from "../components/PostCard";
 import { useEffect, useState, useRef } from "react";
+import SkeletonUI from "../components/Skeleton";
+import SubList from "../components/SubList";
 
 const Home = () => {
-  const { data: topSubs, isLoading: isTobSubsLoading } =
-    useSWR<Sub[]>("/subs/sub/topSubs");
-
   const getkey = (pageIndex: number, previousPageData: Post[]) => {
     if (previousPageData && !previousPageData.length) return null;
     return `/posts?page=${pageIndex}`;
@@ -53,48 +48,53 @@ const Home = () => {
     }
   }, [posts]);
 
-  const { authenticated } = useAuthState();
-
   return (
     <div className="flex max-w-5xl px-4 mt-5 mx-auto">
       <div className="w-full md:mr-3 md:w-8/12">
-        {posts &&
+        {isPostsLoading ? (
+          <SkeletonUI />
+        ) : (
           posts.map((post) => (
-            <div ref={observedPostRef} key={post.identifier}>
-              <PostCard post={post} mutate={mutate} />
+            <div>
+              <div ref={observedPostRef} key={post.identifier}>
+                <PostCard post={post} mutate={mutate} />
+              </div>
             </div>
-          ))}
+          ))
+        )}
       </div>
-      <div className="hidden w-4/12 ml-3 md:block">
-        <div className="border rounded bg-white dark:bg-slate-800 dark:text-slate-100">
-          <div className="p-4 border-b">
-            <p className="text-center text-lg font-semibold">상위 커뮤니티</p>
-          </div>
-          <div>
-            {topSubs &&
-              topSubs.map((sub) => (
-                <SubList
-                  key={sub.name}
-                  imgUrl={sub.imageUrl}
-                  subName={sub.name}
-                  postCount={sub.postCount}
-                />
-              ))}
-          </div>
-          {authenticated && (
-            <div className="w-full py-6 text-center">
-              <Link
-                href="/subs/create"
-                className="w-full py-2 px-14 text-center bg-confirm-blue text-white font-bold rounded-3xl"
-              >
-                커뮤니티 만들기
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
+      <SubList />
     </div>
   );
 };
 
 export default Home;
+
+// SSG 렌더링 방식 코드
+
+// export const getStaticProps: GetStaticProps = async () => {
+//   const getSubItems = async () => {
+//     const res = await axios.get("/subs/sub/topSubs");
+//     const subItems: Sub[] = await res.data;
+//     return subItems;
+//   };
+//   const getPostItems = async () => {
+//     const res = await axios.get("/posts");
+//     const postItems: Post[] = await res.data;
+//     return postItems;
+//   };
+
+//   const [postItems, subItems] = await Promise.all([
+//     getPostItems(),
+//     getSubItems(),
+//   ]);
+
+//   return {
+//     props: {
+//       fallback: {
+//         postItems,
+//         subItems,
+//       },
+//     },
+//   };
+// };
