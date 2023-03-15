@@ -4,6 +4,7 @@ import PostCard from "../components/PostCard";
 import { useEffect, useState, useRef } from "react";
 import SkeletonUI from "../components/Skeleton";
 import SubList from "../components/SubList";
+import Loading from "./../components/Loading";
 
 const Home = () => {
   const getkey = (pageIndex: number, previousPageData: Post[]) => {
@@ -52,7 +53,7 @@ const Home = () => {
     <div className="flex max-w-5xl px-4 mt-5 mx-auto">
       <div className="w-full md:mr-3 md:w-8/12">
         {isPostsLoading ? (
-          <SkeletonUI />
+          <Loading size="80" minH="30" />
         ) : (
           posts.map((post) => (
             <div>

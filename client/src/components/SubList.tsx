@@ -4,6 +4,7 @@ import type { Sub } from "../types";
 import Link from "next/link";
 import SubItem from "../components/SubItem";
 import { useAuthState } from "../context/auth";
+import Loading from "./Loading";
 
 const SubList = () => {
   const { authenticated } = useAuthState();
@@ -16,7 +17,10 @@ const SubList = () => {
           <p className="text-center text-lg font-semibold">상위 커뮤니티</p>
         </div>
         <div>
-          {topSubs &&
+          {isLoading ? (
+            <Loading size="30" minH="10" />
+          ) : (
+            topSubs &&
             topSubs.map((sub) => (
               <SubItem
                 key={sub.name}
@@ -24,7 +28,8 @@ const SubList = () => {
                 subName={sub.name}
                 postCount={sub.postCount}
               />
-            ))}
+            ))
+          )}
         </div>
         {authenticated && (
           <div className="w-full py-6 text-center">

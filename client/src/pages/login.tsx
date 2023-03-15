@@ -32,7 +32,6 @@ const Login = () => {
       dispatch({ type: ActionKind.LOGIN, payload: res.data?.user });
       router.push("/");
     } catch (err: any) {
-      console.log(err);
       setErrors(err.response.data || {});
     }
   };
