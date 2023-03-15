@@ -2,7 +2,6 @@ import useSWRInfinite from "swr/infinite";
 import type { Post } from "../types";
 import PostCard from "../components/PostCard";
 import { useEffect, useState, useRef } from "react";
-import SkeletonUI from "../components/Skeleton";
 import SubList from "../components/SubList";
 import Loading from "./../components/Loading";
 
@@ -14,14 +13,11 @@ const Home = () => {
 
   const {
     data,
-    error,
     isLoading: isPostsLoading,
     size: page,
     setSize: setPage,
-    isValidating,
     mutate,
   } = useSWRInfinite<Post>(getkey);
-  const isInitialLoading = !data && !error;
   const posts: Post[] = data ? ([] as Post[]).concat(...data) : [];
   const [observedPost, setObservedPost] = useState("");
   const observedPostRef = useRef<HTMLDivElement>(null);
@@ -47,7 +43,7 @@ const Home = () => {
       };
       observeElement(observedPostRef.current);
     }
-  }, [posts]);
+  }, [posts, observedPost, page, setPage]);
 
   return (
     <div className="flex max-w-5xl px-4 mt-5 mx-auto">
@@ -56,11 +52,11 @@ const Home = () => {
           <Loading size="80" minH="30" />
         ) : (
           posts.map((post) => (
-            <div>
+            <>
               <div ref={observedPostRef} key={post.identifier}>
                 <PostCard post={post} mutate={mutate} />
               </div>
-            </div>
+            </>
           ))
         )}
       </div>
@@ -70,32 +66,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// SSG 렌더링 방식 코드
-
-// export const getStaticProps: GetStaticProps = async () => {
-//   const getSubItems = async () => {
-//     const res = await axios.get("/subs/sub/topSubs");
-//     const subItems: Sub[] = await res.data;
-//     return subItems;
-//   };
-//   const getPostItems = async () => {
-//     const res = await axios.get("/posts");
-//     const postItems: Post[] = await res.data;
-//     return postItems;
-//   };
-
-//   const [postItems, subItems] = await Promise.all([
-//     getPostItems(),
-//     getSubItems(),
-//   ]);
-
-//   return {
-//     props: {
-//       fallback: {
-//         postItems,
-//         subItems,
-//       },
-//     },
-//   };
-// };
